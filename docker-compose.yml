@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  matrix:
+    build:
+      context: ./images/matrix/
+    command: start
+    ports:
+      - "8448:8448"
+      - "8080:8080"
+    volumes:
+      - /srv/matrix/example:/data
+  coturn:
+    build:
+      context: ./images/coturn/
+    command: start
+    expose:
+      - "3478"
+      - "3479"
+      - "5349"
+      - "5350"
+    ports:
+      - "3478:3478"
+    volumes:
+      - /srv/matrix/example:/data
