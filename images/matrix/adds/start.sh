@@ -9,11 +9,6 @@ fi
 
 case $OPTION in
 	"start")
-		if [ -f /data/turnserver.conf ]; then
-			echo "-=> start turn"
-			/usr/local/bin/turnserver --daemon -c /data/turnserver.conf
-		fi
-
 		echo "-=> start vector.im client"
 		(
 			if [ -f /data/vector.im.conf ]; then
@@ -52,15 +47,6 @@ case $OPTION in
 		[[ "${REPORT_STATS}" != "yes" ]] && [[ "${REPORT_STATS}" != "no" ]] && \
 			echo "STOP! REPORT_STATS needs to be 'no' or 'yes'" && breakup="1"
 
-		turnkey=$(pwgen -s 64 1)
-		echo "-=> generate turn config"
-		echo "lt-cred-mech" > /data/turnserver.conf
-		echo "use-auth-secret" >> /data/turnserver.conf
-		echo "static-auth-secret=${turnkey}" >> /data/turnserver.conf
-		echo "realm=turn.${SERVER_NAME}" >> /data/turnserver.conf
-		echo "cert=/data/${SERVER_NAME}.tls.crt" >> /data/turnserver.conf
-		echo "pkey=/data/${SERVER_NAME}.tls.key" >> /data/turnserver.conf
-
 		echo "-=> generate vector.im server config"
 		echo "# change this option to your needs" >> /data/vector.im.conf
 		echo "-p 8080" > /data/vector.im.conf
@@ -96,7 +82,7 @@ case $OPTION in
 		    }' /data/homeserver.yaml > /data/homeserver.tmp
 		mv /data/homeserver.tmp /data/homeserver.yaml
 
-		echo "-=> you have to review the generated configuration file homeserver.yaml"
+		echo "-=> you can now review the generated configuration files homeserver.yaml and vector.im.conf"
 		;;
 	*)
 		echo "-=> unknown \'$OPTION\'"

@@ -41,27 +41,14 @@ RUN pip install --upgrade pip setuptools
 # parameter.
 ENV INVALIDATEBUILD=notinvalidated
 
-# installing vector.im with nodejs/npm
-RUN curl -sL https://deb.nodesource.com/setup | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g webpack http-server
-
-ENV BV_VEC=master
-ADD https://github.com/vector-im/vector-web/archive/$BV_VEC.zip v.zip
-RUN unzip v.zip \
-    && rm v.zip \
-    && mv vector-web-$BV_VEC vector-web \
-    && cd vector-web \
-    && npm install \
-    && npm run build
-
-# install synapse homeserver
-ENV BV_SYN=master
-ADD https://github.com/matrix-org/synapse/archive/$BV_SYN.zip s.zip
-RUN unzip s.zip \
-    && rm s.zip \
-    && cd /synapse-$BV_SYN \
-    && pip install --process-dependency-links . \
-    && echo $BV_SYN > /synapse.version \
-    && rm -rf /synapse-$BV_SYN
+# install turn-server
+ENV BV_TUR=master
+ADD https://github.com/coturn/coturn/archive/$BV_TUR.zip c.zip
+RUN unzip c.zip \
+    && rm c.zip \
+    && cd /coturn-$BV_TUR \
+    && ./configure \
+    && make \
+    && make install \
+    && rm -rf /coturn-$BV_TUR
 
