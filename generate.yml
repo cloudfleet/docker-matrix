@@ -12,7 +12,7 @@ services:
       - REPORT_STATS=yes
   coturn:
     build:
-      context: ./images/matrix/
+      context: ./images/coturn/
     command: generate
     volumes:
       - /srv/matrix/ex:/data
