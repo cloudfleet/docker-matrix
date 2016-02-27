@@ -74,6 +74,21 @@ build` command.
 
 # Composing
 
-You can also generate the example configuration into `/srv/matrix/ex` with
+You can also generate the example configuration into `/srv/matrix/example` with
 
     docker-compose -f generate.yml up
+
+Then run the `turnserver` and `matrix` with
+
+    docker-compose -d up
+
+Debugging the images happens with
+
+    docker-compose down
+
+To debug the environments instead of the source images, use
+
+    docker-compose stop
+    docker-compose rm
+
+instead.
