@@ -6,7 +6,7 @@ VoIP communication server.
 
 [matrix]: matrix.org
 
-# Configuration
+## Configuration
 
 To configure run the image with "generate" as argument. You have to setup the
 server domain and a `/data`-directory. After this you have to edit the
@@ -22,14 +22,14 @@ Example:
 
     $ docker run -v /tmp/data:/data --rm -e SERVER_NAME=localhost silviof/docker-matrix generate
 
-# Start
+## Start
 
 For starting you need the port bindings and a mapping for the
 `/data`-directory.
 
     $ docker run -d -p 8448:8448 -p 3478:3478 -v /tmp/data:/data silviof/docker-matrix start
 
-# Port configurations
+## Port configurations
 
 This following ports are used in the container. You can use `-p`-option on
 `docker run` to configure this part (eg.: `-p 443:8448`).
@@ -40,7 +40,7 @@ This following ports are used in the container. You can use `-p`-option on
 
 [vector.im]: https://vector.im
 
-# Version information
+## Version information
 
 To get the installed synapse version you can run the image with `version` as
 argument or look at the container via cat.
@@ -50,13 +50,13 @@ argument or look at the container via cat.
     # docker exec -it CONTAINERID cat /synapse.version
     v0.7.1-0-g894a89d
 
-# Environment variables
+## Environment variables
 
 * `SERVER_NAME`: Server and domain name, mandatory, needed only  for `generate`
 * `REPORT_STATS`: statistic report, mandatory, values: `yes` or `no`, needed
   only for `generate`
 
-# build specific arguments
+## build specific arguments
 
 * `BV_SYN`: synapse version, optional, defaults to `master`
 * `BV_VEC`: vector version, optional, defaults to `master`
@@ -66,7 +66,14 @@ For building of synapse version v0.11.0-rc2 and vector with commit a9fc47e add
 `--build-arg BV_SYN=v0.11.0-rc2 --build-arg BV_VEC=a9fc47efd77` to the `docker
 build` command.
 
-# Exported volumes
+## Exported volumes
 
 * `/data`: data-container
 
+---
+
+# Composing
+
+You can also generate the example configuration into `/srv/matrix/ex` with
+
+    docker-compose -f generate.yml up

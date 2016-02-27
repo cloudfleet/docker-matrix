@@ -1,7 +1,7 @@
 FROM debian:jessie
 
 # Maintainer
-MAINTAINER Silvio Fricke <silvio.fricke@gmail.com>
+MAINTAINER Silvio Fricke <silvio.fricke@gmail.com> + jon richter <almereyda@allmende.io>
 
 # update and upgrade
 RUN export DEBIAN_FRONTEND=noninteractive \

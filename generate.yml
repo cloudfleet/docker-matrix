@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  matrix:
+    build:
+      context: ./images/matrix/
+    command: generate
+    volumes:
+      - /srv/matrix/ex:/data
+    environment:
+      - SERVER_NAME=matrix.allmende.io
+      - REPORT_STATS=yes
+  coturn:
+    build:
+      context: ./images/matrix/
+    command: generate
+    volumes:
+      - /srv/matrix/ex:/data
