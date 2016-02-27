@@ -30,7 +30,7 @@ RUN chmod a+x /start.sh
 # startup configuration
 ENTRYPOINT ["/start.sh"]
 CMD ["start"]
-EXPOSE 8448
+EXPOSE 3478
 VOLUME ["/data"]
 
 # install/upgrade pip
