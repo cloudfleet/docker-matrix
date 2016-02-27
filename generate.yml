@@ -8,8 +8,10 @@ services:
     volumes:
       - /srv/matrix/example:/data
     environment:
-      - SERVER_NAME=matrix.allmende.io
       - REPORT_STATS=yes
+      - SERVER_NAME=matrix.allmende.io
+    depends_on:
+      - coturn
   coturn:
     build:
       context: ./images/coturn/

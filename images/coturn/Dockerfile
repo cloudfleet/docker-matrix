@@ -51,4 +51,3 @@ RUN unzip c.zip \
     && make \
     && make install \
     && rm -rf /coturn-$BV_TUR
-

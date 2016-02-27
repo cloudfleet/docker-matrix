@@ -63,10 +63,11 @@ case $OPTION in
 		       --report-stats ${REPORT_STATS} \
 		       --server-name ${SERVER_NAME}
 
+		export TURNKEY=$(</data/TURNKEY)
 		echo "-=> configure some settings in homeserver.yaml"
 		awk -v SERVER_NAME="${SERVERNAME}" \
 		    -v TURNURIES="turn_uris: [\"turn:${SERVER_NAME}:3478?transport=udp\", \"turn:${SERVER_NAME}:3478?transport=tcp\"]" \
-		    -v TURNSHAREDSECRET="turn_shared_secret: \"${turnkey}\"" \
+		    -v TURNSHAREDSECRET="turn_shared_secret: \"${TURNKEY}\"" \
 		    -v PIDFILE="pid_file: /data/homeserver.pid" \
 		    -v DATABASE="database: \"/data/homeserver.db\"" \
 		    -v LOGFILE="log_file: \"/data/homeserver.log\"" \

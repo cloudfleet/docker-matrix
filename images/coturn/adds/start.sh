@@ -15,14 +15,16 @@ case $OPTION in
 		[[ -z "${SERVER_NAME}" ]] && echo "STOP! environment variable SERVER_NAME must be set" && breakup="1"
 		[[ "${breakup}" == "1" ]] && exit 1
 
-		turnkey=$(pwgen -s 64 1)
+		export TURNKEY=$(pwgen -s 64 1)
 		echo "-=> generate turn config"
 		echo "lt-cred-mech" > /data/turnserver.conf
 		echo "use-auth-secret" >> /data/turnserver.conf
-		echo "static-auth-secret=${turnkey}" >> /data/turnserver.conf
+		echo "static-auth-secret=${TURNKEY}" >> /data/turnserver.conf
 		echo "realm=turn.${SERVER_NAME}" >> /data/turnserver.conf
 		echo "cert=/data/${SERVER_NAME}.tls.crt" >> /data/turnserver.conf
 		echo "pkey=/data/${SERVER_NAME}.tls.key" >> /data/turnserver.conf
+
+                echo "${TURNKEY}" > /data/TURNKEY
 
 		echo "-=> you can now review the generated configuration file turnserver.conf"
 		;;
