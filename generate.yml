@@ -6,7 +6,7 @@ services:
       context: ./images/matrix/
     command: generate
     volumes:
-      - /srv/matrix/ex:/data
+      - /srv/matrix/example:/data
     environment:
       - SERVER_NAME=matrix.allmende.io
       - REPORT_STATS=yes
@@ -15,4 +15,6 @@ services:
       context: ./images/coturn/
     command: generate
     volumes:
-      - /srv/matrix/ex:/data
+      - /srv/matrix/example:/data
+    environment:
+      - SERVER_NAME=matrix.allmende.io
