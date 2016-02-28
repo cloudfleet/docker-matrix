@@ -23,6 +23,24 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
+# install/upgrade pip
+RUN pip install --upgrade pip setuptools
+
+# "git clone" is cached, we need to invalidate the docker cache here
+# to use this add a --build-arg INVALIDATEBUILD=$(data) to your docker build
+# parameter.
+ENV INVALIDATEBUILD=notinvalidated
+
+# install synapse homeserver
+ENV BV_SYN=master
+RUN curl -fSL https://github.com/matrix-org/synapse/archive/$BV_SYN.zip -o s.zip \
+    && unzip s.zip \
+    && rm s.zip \
+    && cd /synapse-$BV_SYN \
+    && pip install --process-dependency-links . \
+    && echo $BV_SYN > /synapse.version \
+    && rm -rf /synapse-$BV_SYN
+
 # install homerserver template
 ADD adds/start.sh /start.sh
 RUN chmod a+x /start.sh
@@ -32,36 +50,3 @@ ENTRYPOINT ["/start.sh"]
 CMD ["start"]
 EXPOSE 8448
 VOLUME ["/data"]
-
-# install/upgrade pip
-RUN pip install --upgrade pip setuptools
-
-# "git clone" is cached, we need to invalidate the docker cache here
-# to use this add a --build-arg INVALIDATEBUILD=$(data) to your docker build
-# parameter.
-ENV INVALIDATEBUILD=notinvalidated
-
-# installing vector.im with nodejs/npm
-RUN curl -sL https://deb.nodesource.com/setup | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g webpack http-server
-
-ENV BV_VEC=master
-ADD https://github.com/vector-im/vector-web/archive/$BV_VEC.zip v.zip
-RUN unzip v.zip \
-    && rm v.zip \
-    && mv vector-web-$BV_VEC vector-web \
-    && cd vector-web \
-    && npm install \
-    && npm run build
-
-# install synapse homeserver
-ENV BV_SYN=master
-ADD https://github.com/matrix-org/synapse/archive/$BV_SYN.zip s.zip
-RUN unzip s.zip \
-    && rm s.zip \
-    && cd /synapse-$BV_SYN \
-    && pip install --process-dependency-links . \
-    && echo $BV_SYN > /synapse.version \
-    && rm -rf /synapse-$BV_SYN
-

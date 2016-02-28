@@ -9,23 +9,6 @@ fi
 
 case $OPTION in
 	"start")
-		echo "-=> start vector.im client"
-		(
-			if [ -f /data/vector.im.conf ]; then
-				options=""
-
-				while read -r line; do
-					[ "${line:0:1}" == "#" ] && continue
-					[ "${line:0:1}" == " " ] && continue
-					options="${options} ${line}"
-				done < /data/vector.im.conf
-
-				cd /vector-web/vector
-				echo "-=> vector.im options: http-server ${options}"
-				http-server ${options} &
-			fi
-		)
-
 		echo "-=> start matrix"
 		python -m synapse.app.homeserver \
 		       --config-path /data/homeserver.yaml \
@@ -46,15 +29,6 @@ case $OPTION in
 
 		[[ "${REPORT_STATS}" != "yes" ]] && [[ "${REPORT_STATS}" != "no" ]] && \
 			echo "STOP! REPORT_STATS needs to be 'no' or 'yes'" && breakup="1"
-
-		echo "-=> generate vector.im server config"
-		echo "# change this option to your needs" >> /data/vector.im.conf
-		echo "-p 8080" > /data/vector.im.conf
-		echo "-A 0.0.0.0" >> /data/vector.im.conf
-		echo "-c 3500" >> /data/vector.im.conf
-		echo "--ssl" >> /data/vector.im.conf
-		echo "--cert /data/${SERVER_NAME}.tls.crt" >> /data/vector.im.conf
-		echo "--key /data/${SERVER_NAME}.tls.key" >> /data/vector.im.conf
 
 		echo "-=> generate synapse config"
 		python -m synapse.app.homeserver \
@@ -83,7 +57,7 @@ case $OPTION in
 		    }' /data/homeserver.yaml > /data/homeserver.tmp
 		mv /data/homeserver.tmp /data/homeserver.yaml
 
-		echo "-=> you can now review the generated configuration files homeserver.yaml and vector.im.conf"
+		echo "-=> you can now review the generated configuration file homeserver.yaml"
 		;;
 	*)
 		echo "-=> unknown \'$OPTION\'"

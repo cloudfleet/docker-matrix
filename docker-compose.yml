@@ -1,15 +1,25 @@
 version: '2'
 
 services:
+
+  vector:
+    build:
+      context: ./images/vector/
+    command: start
+    ports:
+      - "8080:8080"
+    volumes:
+      - /srv/matrix/example:/data
+
   matrix:
     build:
       context: ./images/matrix/
     command: start
     ports:
       - "8448:8448"
-      - "8080:8080"
     volumes:
       - /srv/matrix/example:/data
+
   coturn:
     build:
       context: ./images/coturn/

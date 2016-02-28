@@ -1,6 +1,16 @@
 version: '2'
 
 services:
+
+  vector:
+    build:
+      context: ./images/vector/
+    command: generate
+    volumes:
+      - /srv/matrix/example:/data
+    environment:
+      - SERVER_NAME=matrix.allmende.io
+
   matrix:
     build:
       context: ./images/matrix/
@@ -12,6 +22,7 @@ services:
       - SERVER_NAME=matrix.allmende.io
     depends_on:
       - coturn
+
   coturn:
     build:
       context: ./images/coturn/
