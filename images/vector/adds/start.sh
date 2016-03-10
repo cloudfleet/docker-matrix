@@ -30,7 +30,7 @@ case $OPTION in
 		echo "-=> generate vector.im server config"
 		echo "# change this option to your needs" >> /data/vector.im.conf
 		echo "-p 8080" > /data/vector.im.conf
-		echo "-A 0.0.0.0" >> /data/vector.im.conf
+		echo "-a 0.0.0.0" >> /data/vector.im.conf
 		echo "-c 3500" >> /data/vector.im.conf
 		echo "--ssl" >> /data/vector.im.conf
 		echo "--cert /data/${SERVER_NAME}.tls.crt" >> /data/vector.im.conf
