@@ -40,7 +40,7 @@ services:
       - "5349"
       - "5350"
     ports:
-      - "3478:3478"
+      - "3478:3478/udp"
     volumes:
       - /srv/matrix/allmende:/data
 
