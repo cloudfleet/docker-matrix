@@ -8,7 +8,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update -y \
     && apt-get install -y --no-install-recommends \
 	build-essential \
-	curl \
+	git-core \
+        curl \
 	libevent-dev \
 	libffi-dev \
 	libjpeg-dev \
