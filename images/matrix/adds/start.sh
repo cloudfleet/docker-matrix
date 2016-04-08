@@ -8,8 +8,6 @@ if [ ! -z "${ROOTPATH}" ]; then
 fi
 
 case $OPTION in
-	"start")
-		;;
 	"stop")
 		echo "-=> stop matrix"
 		echo "-=> via docker stop ..."
