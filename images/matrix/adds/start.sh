@@ -9,9 +9,6 @@ fi
 
 case $OPTION in
 	"start")
-		echo "-=> start matrix"
-		python -m synapse.app.homeserver \
-		       --config-path /data/homeserver.yaml \
 		;;
 	"stop")
 		echo "-=> stop matrix"
@@ -21,26 +18,25 @@ case $OPTION in
 		VERSION=$(tail -n 1 /synapse.version)
 		echo "-=> Matrix Version: ${VERSION}"
 		;;
-	"generate")
+	"start")
 		breakup="0"
 		[[ -z "${SERVER_NAME}" ]] && echo "STOP! environment variable SERVER_NAME must be set" && breakup="1"
-		[[ -z "${REPORT_STATS}" ]] && echo "STOP! environment variable REPORT_STATS must be set to 'no' or 'yes'" && breakup="1"
-		[[ "${breakup}" == "1" ]] && exit 1
-
+		[[ -z "${TURNKEY}" ]] && echo "STOP! environment variable TURNKEY must be set" && breakup="1"
 		[[ "${REPORT_STATS}" != "yes" ]] && [[ "${REPORT_STATS}" != "no" ]] && \
 			echo "STOP! REPORT_STATS needs to be 'no' or 'yes'" && breakup="1"
+		[[ "${breakup}" == "1" ]] && exit 1
+
 
 		echo "-=> generate synapse config"
 		python -m synapse.app.homeserver \
-		       --config-path /data/homeserver.yaml \
+		       --config-path /config/homeserver.yaml \
 		       --generate-config \
 		       --report-stats ${REPORT_STATS} \
 		       --server-name ${SERVER_NAME}
 
-		export TURNKEY=$(</data/TURNKEY)
 		echo "-=> configure some settings in homeserver.yaml"
 		awk -v SERVER_NAME="${SERVERNAME}" \
-		    -v TURNURIES="turn_uris: [\"turn:${SERVER_NAME}:3478?transport=udp\", \"turn:${SERVER_NAME}:3478?transport=tcp\"]" \
+		    -v TURNURIES="turn_uris: [\"turn:${TURN_SERVER_NAME}:3478?transport=udp\", \"turn:${TURN_SERVER_NAME}:3478?transport=tcp\"]" \
 		    -v TURNSHAREDSECRET="turn_shared_secret: \"${TURNKEY}\"" \
 		    -v PIDFILE="pid_file: /data/homeserver.pid" \
 		    -v DATABASE="database: \"/data/homeserver.db\"" \
@@ -54,13 +50,14 @@ case $OPTION in
 			sub(/log_file: "\/homeserver.log"/, LOGFILE);
 			sub(/media_store_path: "\/media_store"/, MEDIASTORE);
 			print;
-		    }' /data/homeserver.yaml > /data/homeserver.tmp
-		mv /data/homeserver.tmp /data/homeserver.yaml
+		}' /config/homeserver.yaml > /config/homeserver.tmp
+		mv /config/homeserver.tmp /config/homeserver.yaml
 
-		echo "-=> you can now review the generated configuration file homeserver.yaml"
+		echo "-=> start matrix"
+		python -m synapse.app.homeserver \
+		       --config-path /config/homeserver.yaml \
 		;;
 	*)
 		echo "-=> unknown \'$OPTION\'"
 		;;
 esac
-
