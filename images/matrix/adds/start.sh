@@ -18,7 +18,7 @@ case $OPTION in
 		;;
 	"start")
 		breakup="0"
-		[[ -z "${SERVERNAME}" ]] && echo "STOP! environment variable SERVERNAME must be set" && breakup="1"
+		[[ -z "${SERVER_NAME}" ]] && echo "STOP! environment variable SERVER_NAME must be set" && breakup="1"
 		[[ -z "${TURNKEY}" ]] && echo "STOP! environment variable TURNKEY must be set" && breakup="1"
 		[[ "${REPORT_STATS}" != "yes" ]] && [[ "${REPORT_STATS}" != "no" ]] && \
 			echo "STOP! REPORT_STATS needs to be 'no' or 'yes'" && breakup="1"
@@ -33,7 +33,7 @@ case $OPTION in
 		       --server-name ${SERVER_NAME}
 
 		echo "-=> configure some settings in homeserver.yaml"
-		awk -v SERVER_NAME="${SERVERNAME}" \
+		awk -v SERVER_NAME="${SERVER_NAME}" \
 		    -v TURNURIES="turn_uris: [\"turn:${TURN_SERVER_NAME}:3478?transport=udp\", \"turn:${TURN_SERVER_NAME}:3478?transport=tcp\"]" \
 		    -v TURNSHAREDSECRET="turn_shared_secret: \"${TURNKEY}\"" \
 		    -v PIDFILE="pid_file: /data/homeserver.pid" \
