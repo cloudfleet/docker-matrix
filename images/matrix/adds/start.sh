@@ -50,8 +50,8 @@ case $OPTION in
       print;
     }' /config/homeserver.yaml > /config/homeserver.tmp
 
-    # Add ldap stanza to homeserver.yaml
-    echo >> /config/homeserver.tmp <<EOF
+    echo "-=> Add ldap stanza to homeserver.yaml"
+    cat >> /config/homeserver.tmp <<EOF
 
     ldap_config:
       enabled: true
