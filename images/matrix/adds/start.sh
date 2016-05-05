@@ -65,6 +65,8 @@ EOF
 
     mv /config/homeserver.tmp /config/homeserver.yaml
 
+    cat /config/homeserver.yaml
+
     echo "-=> start matrix"
     python -m synapse.app.homeserver \
            --config-path /config/homeserver.yaml \
