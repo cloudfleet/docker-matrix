@@ -53,14 +53,14 @@ case $OPTION in
     echo "-=> Add ldap stanza to homeserver.yaml"
     cat >> /config/homeserver.tmp <<EOF
 
-    ldap_config:
-      enabled: true
-      server: ${LDAP_URL}
-      port: ${LDAP_PORT}
-      search_base: ${LDAP_SEARCH_BASE}
-      search_property: ${LDAP_SEARCH_PROPERTY}
-      email_property: ${LDAP_EMAIL_PROPERTY}
-      full_name_property: ${LDAP_FIRST_NAME_PROPERTY}
+ldap_config:
+   enabled: true
+   server: ${LDAP_URL}
+   port: ${LDAP_PORT}
+   search_base: ${LDAP_SEARCH_BASE}
+   search_property: ${LDAP_SEARCH_PROPERTY}
+   email_property: ${LDAP_EMAIL_PROPERTY}
+   full_name_property: ${LDAP_FIRST_NAME_PROPERTY}
 EOF
 
     mv /config/homeserver.tmp /config/homeserver.yaml
