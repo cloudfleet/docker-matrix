@@ -20,6 +20,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 	python2.7-dev \
 	sqlite3 \
 	unzip \
+  python-ldap \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
