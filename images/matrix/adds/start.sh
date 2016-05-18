@@ -27,7 +27,7 @@ case $OPTION in
 
     echo "-=> generate synapse config"
     python -m synapse.app.homeserver \
-           --config-path /config/homeserver.yaml \
+           --config-path /config/homeserver.new \
            --generate-config \
            --report-stats ${REPORT_STATS} \
            --server-name ${SERVER_NAME}
@@ -48,7 +48,9 @@ case $OPTION in
       sub(/log_file: "\/homeserver.log"/, LOGFILE);
       sub(/media_store_path: "\/media_store"/, MEDIASTORE);
       print;
-    }' /config/homeserver.yaml > /config/homeserver.tmp
+    }' /config/homeserver.new > /config/homeserver.tmp
+
+    rm /config/homeserver.new
 
     echo "-=> Add ldap stanza to homeserver.yaml"
     cat >> /config/homeserver.tmp <<EOF
